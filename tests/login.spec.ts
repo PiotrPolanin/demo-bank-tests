@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import {LoginPage} from "../pages/login.page"
 
 test.describe("User login with credentials", () => {
 
@@ -12,9 +13,10 @@ test.describe("User login with credentials", () => {
     const password = "psw12345";
     const userName = "Jan Demobankowy";
     // Act
-    await page.getByTestId("login-input").fill(login);
-    await page.getByTestId("password-input").fill(password);
-    await page.getByTestId("login-button").click();
+    const loginPage = new LoginPage(page)
+    await loginPage.loginInput.fill(login);
+    await loginPage.passwordInput.fill(password);
+    await loginPage.loginButton.click();
     // Assert
     await expect(page.getByTestId("user-name")).toHaveText(userName);
   });

@@ -1,4 +1,5 @@
 import { test, expect } from "@playwright/test";
+import { LoginPage } from "../pages/login.page";
 
 
 test.describe("Pulpit tests", () => {
@@ -8,9 +9,10 @@ test.describe("Pulpit tests", () => {
     const password = "psw12345";
     
     await page.goto('/');
-    await page.getByTestId("login-input").fill(login);
-    await page.getByTestId("password-input").fill(password);
-    await page.getByTestId("login-button").click();
+    const loginPage = new LoginPage(page)
+    await loginPage.loginInput.fill(login);
+    await loginPage.passwordInput.fill(password);
+    await loginPage.loginButton.click();
     await page.waitForLoadState("domcontentloaded");
   });
 
@@ -47,7 +49,7 @@ test.describe("Pulpit tests", () => {
     await expect(page.locator("#show_messages")).toHaveText(message);
   });
 
-  test.only("Balance account is correct after sucessfully transfer money to mobile phone", async ({ page }) => {
+  test("Balance account is correct after sucessfully transfer money to mobile phone", async ({ page }) => {
     // Arrange
     const phoneNumber = "500 xxx xxx";
     const amountToTransfer = "500";
