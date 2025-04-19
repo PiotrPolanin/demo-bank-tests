@@ -1,18 +1,19 @@
 import { test, expect } from "@playwright/test";
 import { LoginPage } from "../pages/login.page";
+import { TransferPage } from "../pages/transfer.page";
 
 
 test.describe("Pulpit tests", () => {
+
+  let loginPage: LoginPage;
 
   test.beforeEach(async ({page}) => {
     const login = "demo_usr";
     const password = "psw12345";
     
     await page.goto('/');
-    const loginPage = new LoginPage(page)
-    await loginPage.loginInput.fill(login);
-    await loginPage.passwordInput.fill(password);
-    await loginPage.loginButton.click();
+    loginPage = new LoginPage(page);
+    await loginPage.login(login, password);
     await page.waitForLoadState("domcontentloaded");
   });
 
@@ -23,14 +24,14 @@ test.describe("Pulpit tests", () => {
     const transferAmount = "500";
     const transferTitle = "Przelew środków pieniężnych";
     // Act
-    await page
-      .locator("#widget_1_transfer_receiver")
+    const transferPage = new TransferPage(page)
+    await transferPage.transferReceiver
       .selectOption(transferReceiver);
-    await page.locator("#widget_1_transfer_amount").fill(transferAmount);
-    await page.locator("#widget_1_transfer_title").fill(transferTitle);
-    await page.locator("#execute_btn").click();
+    await transferPage.transferAmount.fill(transferAmount);
+    await transferPage.transferTitle.fill(transferTitle);
+    await transferPage.transferButton.click();
     // Assert
-    await expect(page.locator("#show_messages")).toHaveText(
+    await expect(transferPage.showTransferMessage).toHaveText(
       `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - Przelew środków pieniężnych`
     );
   });
@@ -41,12 +42,13 @@ test.describe("Pulpit tests", () => {
     const amountToTransfer = "100";
     const message = `Doładowanie wykonane! ${amountToTransfer},00PLN na numer ${phoneNumber}`;
     // Act
-    await page.locator("#widget_1_topup_receiver").selectOption(phoneNumber);
-    await page.locator("#widget_1_topup_amount").fill(amountToTransfer);
-    await page.locator("#uniform-widget_1_topup_agreement").check();
-    await page.locator("#execute_phone_btn").click();
+    const transferPage = new TransferPage(page);
+    await transferPage.topupReceiver.selectOption(phoneNumber);
+    await transferPage.topupAmount.fill(amountToTransfer);
+    await transferPage.topupAgreement.check();
+    await transferPage.phoneButton.click();
     // Assert
-    await expect(page.locator("#show_messages")).toHaveText(message);
+    await expect(transferPage.showTransferMessage).toHaveText(message);
   });
 
   test("Balance account is correct after sucessfully transfer money to mobile phone", async ({ page }) => {
@@ -55,15 +57,14 @@ test.describe("Pulpit tests", () => {
     const amountToTransfer = "500";
     const accountBallance = await page.locator('#money_value').innerText();
     const expectBalanceAfterTransfer = Number(accountBallance) - Number(amountToTransfer)
-
     // Act
-    await page.locator("#widget_1_topup_receiver").selectOption(phoneNumber);
-    await page.locator("#widget_1_topup_amount").fill(amountToTransfer);
-    await page.locator("#uniform-widget_1_topup_agreement").check();
-    await page.locator("#execute_phone_btn").click();
+    const transferPage = new TransferPage(page);
+    await transferPage.topupReceiver.selectOption(phoneNumber);
+    await transferPage.topupAmount.fill(amountToTransfer);
+    await transferPage.topupAgreement.check();
+    await transferPage.phoneButton.click();
     // Assert
-    // await expect(page.locator('#money_value')).toHaveText(String(expectBalanceAfterTransfer));
-    await expect(page.locator('#money_value')).toHaveText(`${expectBalanceAfterTransfer}`);
+    await expect(transferPage.moneyValue).toHaveText(`${expectBalanceAfterTransfer}`);
   });
 
 });

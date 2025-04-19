@@ -3,8 +3,11 @@ import {LoginPage} from "../pages/login.page"
 
 test.describe("User login with credentials", () => {
 
+  let loginPage: LoginPage;
+
   test.beforeEach(async ({page}) => {
     await page.goto('/');
+    loginPage = new LoginPage(page)
   });
 
   test("Sucessful login with correct credentials", async ({ page }) => {
@@ -13,12 +16,9 @@ test.describe("User login with credentials", () => {
     const password = "psw12345";
     const userName = "Jan Demobankowy";
     // Act
-    const loginPage = new LoginPage(page)
-    await loginPage.loginInput.fill(login);
-    await loginPage.passwordInput.fill(password);
-    await loginPage.loginButton.click();
+    await loginPage.login(login, password);
     // Assert
-    await expect(page.getByTestId("user-name")).toHaveText(userName);
+    await expect(loginPage.userName).toHaveText(userName);
   });
 
   test("Unsucessful login with no filling credentials fields", async ({
@@ -27,13 +27,13 @@ test.describe("User login with credentials", () => {
     // Arrange
     const errorMessage = "pole wymagane";
     // Act
-    await page.getByTestId("login-input").click();
-    await page.getByTestId("login-input").blur();
-    await page.getByTestId("password-input").click();
-    await page.getByTestId("password-input").blur();
+    await loginPage.loginInput.click();
+    await loginPage.loginInput.blur();
+    await loginPage.passwordInput.click();
+    await loginPage.passwordInput.blur();
     // Assert
-    await expect(page.getByTestId("error-login-id")).toHaveText(errorMessage);
-    await expect(page.getByTestId("error-login-password")).toHaveText(
+    await expect(loginPage.errorLoginMessage).toHaveText(errorMessage);
+    await expect(loginPage.errorPasswordMessage).toHaveText(
       errorMessage
     );
   });
@@ -42,10 +42,10 @@ test.describe("User login with credentials", () => {
     // Arrange
     const errorMessage = "identyfikator ma min. 8 znaków";
     // Act
-    await page.getByTestId("login-input").fill("user");
-    await page.getByTestId("login-input").blur();
+    await loginPage.loginInput.fill("user");
+    await loginPage.loginInput.blur();
     // Assert
-    await expect(page.getByTestId("error-login-id")).toHaveText(errorMessage);
+    await expect(loginPage.errorLoginMessage).toHaveText(errorMessage);
   });
 
   test("Unsucessful login with too short password", async ({ page }) => {
@@ -54,11 +54,11 @@ test.describe("User login with credentials", () => {
     const password = "psw1234";
     const errorMessage = "hasło ma min. 8 znaków";
     // Act
-    await page.getByTestId("login-input").fill(login);
-    await page.getByTestId("password-input").fill(password);
-    await page.getByTestId("password-input").blur();
+    await loginPage.loginInput.fill(login);
+    await loginPage.passwordInput.fill(password);
+    await loginPage.passwordInput.blur();
     // Assert
-    await expect(page.getByTestId("error-login-password")).toHaveText(
+    await expect(loginPage.errorPasswordMessage).toHaveText(
       errorMessage
     );
   });
