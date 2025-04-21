@@ -8,7 +8,9 @@
     "test:login": "npm run test tests/login.spec.ts",
     "test:pulpit": "npm run test tests/pulpit.spec.ts",
     "test:pulpit:headed": "npm run test tests/pulpit.spec.ts -- --headed",
-    "test:payment": "npm run test tests/pulpit.spec.ts"
+    "test:payment": "npm run test tests/pulpit.spec.ts",
+    "test:login:annotation": "npx playwright test --grep \"@login\"",
+    "test:payment:annotation": "npx playwright test --grep \"@payment\""
   },
   "keywords": [],
   "author": "",

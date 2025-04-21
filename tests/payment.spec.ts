@@ -16,7 +16,7 @@ test.describe("Payment tests", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("Successful normal payment", async ({ page }) => {
+  test("Successful normal payment @payment @integration", async ({ page }) => {
     //Arrange
     const transferReceiver = "Jan Nowak";
     const transferAccount = "12 3456 7890 1234 5678 9012 34568";

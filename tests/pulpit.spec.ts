@@ -16,7 +16,7 @@ test.describe("Pulpit tests", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("Successful money rapid transfer", async ({ page }) => {
+  test("Successful money rapid transfer @payment @integration", async ({ page }) => {
     // Arrange
     const transferReceiver = "2";
     const transferAmount = "500";
@@ -34,7 +34,7 @@ test.describe("Pulpit tests", () => {
     );
   });
 
-  test("Successful money transfer to mobile phone", async ({ page }) => {
+  test("Successful money transfer to mobile phone @payment @integration", async ({ page }) => {
     // Arrange
     const phoneNumber = "500 xxx xxx";
     const amountToTransfer = "100";
@@ -46,7 +46,7 @@ test.describe("Pulpit tests", () => {
     await expect(transferPage.showTransferMessage).toHaveText(message);
   });
 
-  test("Balance account is correct after sucessfully transfer money to mobile phone", async ({
+  test("Balance account is correct after sucessfully transfer money to mobile phone @payment @integration", async ({
     page,
   }) => {
     // Arrange

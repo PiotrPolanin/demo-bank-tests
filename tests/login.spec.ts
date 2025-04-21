@@ -10,7 +10,7 @@ test.describe("User login with credentials", () => {
     loginPage = new LoginPage(page);
   });
 
-  test("Sucessful login with correct credentials", async ({ page }) => {
+  test("Sucessful login with correct credentials @login @smoke", async ({ page }) => {
     // Arrange
     const login = LoginData.userLogin;
     const password = LoginData.userPassword;
@@ -21,7 +21,7 @@ test.describe("User login with credentials", () => {
     await expect(loginPage.userName).toHaveText(userName);
   });
 
-  test("Unsucessful login with no filling credentials fields", async ({
+  test("Unsucessful login with no filling credentials fields @login", async ({
     page,
   }) => {
     // Arrange
@@ -36,7 +36,7 @@ test.describe("User login with credentials", () => {
     await expect(loginPage.errorPasswordMessage).toHaveText(errorMessage);
   });
 
-  test("Unsucessful login with too short username", async ({ page }) => {
+  test("Unsucessful login with too short username @login", async ({ page }) => {
     // Arrange
     const errorMessage = "identyfikator ma min. 8 znaków";
     // Act
@@ -46,7 +46,7 @@ test.describe("User login with credentials", () => {
     await expect(loginPage.errorLoginMessage).toHaveText(errorMessage);
   });
 
-  test("Unsucessful login with too short password", async ({ page }) => {
+  test("Unsucessful login with too short password @login", async ({ page }) => {
     // Arrange
     const login = "tester01";
     const password = "psw1234";

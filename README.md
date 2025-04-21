@@ -54,3 +54,6 @@ https://jaktestowac.pl/lesson/pw1s01l01/
 - test.describe.configure({ retries: 2 });
 
 await expect(page.getByLabel('selector_name')).toBeVisible();
+
+## Playwright documentation
+https://playwright.dev/docs/test-cli#reference
