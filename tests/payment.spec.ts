@@ -16,23 +16,27 @@ test.describe("Payment tests", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("Successful normal payment @payment @integration", async ({ page }) => {
-    //Arrange
-    const transferReceiver = "Jan Nowak";
-    const transferAccount = "12 3456 7890 1234 5678 9012 34568";
-    const topupAmount = "250";
-    const formTitle = "Przelew zwykły";
-    const message = `Przelew wykonany! ${topupAmount},00PLN dla ${transferReceiver}`;
-    //Act
-    const normalPayment = new PaymentPage(page);
-    await normalPayment.openPaymentPage();
-    await normalPayment.normalTransfer(
-      transferReceiver,
-      transferAccount,
-      topupAmount,
-      formTitle
-    );
-    //Assert
-    await expect(normalPayment.message).toHaveText(message);
-  });
+  test(
+    "Successful normal payment",
+    { tag: ["@payment", "@integration"] },
+    async ({ page }) => {
+      //Arrange
+      const transferReceiver = "Jan Nowak";
+      const transferAccount = "12 3456 7890 1234 5678 9012 34568";
+      const topupAmount = "250";
+      const formTitle = "Przelew zwykły";
+      const message = `Przelew wykonany! ${topupAmount},00PLN dla ${transferReceiver}`;
+      //Act
+      const normalPayment = new PaymentPage(page);
+      await normalPayment.openPaymentPage();
+      await normalPayment.normalTransfer(
+        transferReceiver,
+        transferAccount,
+        topupAmount,
+        formTitle
+      );
+      //Assert
+      await expect(normalPayment.message).toHaveText(message);
+    }
+  );
 });

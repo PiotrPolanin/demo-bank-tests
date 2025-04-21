@@ -16,51 +16,61 @@ test.describe("Pulpit tests", () => {
     await page.waitForLoadState("domcontentloaded");
   });
 
-  test("Successful money rapid transfer @payment @integration", async ({ page }) => {
-    // Arrange
-    const transferReceiver = "2";
-    const transferAmount = "500";
-    const transferTitle = "Przelew środków pieniężnych";
-    // Act
-    const transferPage = new TransferPage(page);
-    transferPage.rapidMoneyTransfer(
-      transferReceiver,
-      transferAmount,
-      transferTitle
-    );
-    // Assert
-    await expect(transferPage.showTransferMessage).toHaveText(
-      `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - Przelew środków pieniężnych`
-    );
-  });
+  test(
+    "Successful money rapid transfer",
+    { tag: ["@payment", "@integration"] },
+    async ({ page }) => {
+      // Arrange
+      const transferReceiver = "2";
+      const transferAmount = "500";
+      const transferTitle = "Przelew środków pieniężnych";
+      // Act
+      const transferPage = new TransferPage(page);
+      transferPage.rapidMoneyTransfer(
+        transferReceiver,
+        transferAmount,
+        transferTitle
+      );
+      // Assert
+      await expect(transferPage.showTransferMessage).toHaveText(
+        `Przelew wykonany! Chuck Demobankowy - ${transferAmount},00PLN - Przelew środków pieniężnych`
+      );
+    }
+  );
 
-  test("Successful money transfer to mobile phone @payment @integration", async ({ page }) => {
-    // Arrange
-    const phoneNumber = "500 xxx xxx";
-    const amountToTransfer = "100";
-    const message = `Doładowanie wykonane! ${amountToTransfer},00PLN na numer ${phoneNumber}`;
-    // Act
-    const transferPage = new TransferPage(page);
-    transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
-    // Assert
-    await expect(transferPage.showTransferMessage).toHaveText(message);
-  });
+  test(
+    "Successful money transfer to mobile phone",
+    { tag: ["@payment", "@integration"] },
+    async ({ page }) => {
+      // Arrange
+      const phoneNumber = "500 xxx xxx";
+      const amountToTransfer = "100";
+      const message = `Doładowanie wykonane! ${amountToTransfer},00PLN na numer ${phoneNumber}`;
+      // Act
+      const transferPage = new TransferPage(page);
+      transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
+      // Assert
+      await expect(transferPage.showTransferMessage).toHaveText(message);
+    }
+  );
 
-  test("Balance account is correct after sucessfully transfer money to mobile phone @payment @integration", async ({
-    page,
-  }) => {
-    // Arrange
-    const phoneNumber = "500 xxx xxx";
-    const amountToTransfer = "500";
-    const accountBallance = await page.locator("#money_value").innerText();
-    const expectBalanceAfterTransfer =
-      Number(accountBallance) - Number(amountToTransfer);
-    // Act
-    const transferPage = new TransferPage(page);
-    transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
-    // Assert
-    await expect(transferPage.moneyValue).toHaveText(
-      `${expectBalanceAfterTransfer}`
-    );
-  });
+  test(
+    "Balance account is correct after sucessfully transfer money to mobile phone",
+    { tag: ["@payment", "@integration"] },
+    async ({ page }) => {
+      // Arrange
+      const phoneNumber = "500 xxx xxx";
+      const amountToTransfer = "500";
+      const accountBallance = await page.locator("#money_value").innerText();
+      const expectBalanceAfterTransfer =
+        Number(accountBallance) - Number(amountToTransfer);
+      // Act
+      const transferPage = new TransferPage(page);
+      transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
+      // Assert
+      await expect(transferPage.moneyValue).toHaveText(
+        `${expectBalanceAfterTransfer}`
+      );
+    }
+  );
 });
