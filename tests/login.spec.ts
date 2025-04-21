@@ -1,19 +1,19 @@
 import { test, expect } from "@playwright/test";
-import {LoginPage} from "../pages/login.page"
+import { LoginPage } from "../pages/login.page";
+import { LoginData } from "../test-data/login-data";
 
 test.describe("User login with credentials", () => {
-
   let loginPage: LoginPage;
 
-  test.beforeEach(async ({page}) => {
-    await page.goto('/');
-    loginPage = new LoginPage(page)
+  test.beforeEach(async ({ page }) => {
+    await page.goto("/");
+    loginPage = new LoginPage(page);
   });
 
   test("Sucessful login with correct credentials", async ({ page }) => {
     // Arrange
-    const login = "demo_usr";
-    const password = "psw12345";
+    const login = LoginData.userLogin;
+    const password = LoginData.userPassword;
     const userName = "Jan Demobankowy";
     // Act
     await loginPage.login(login, password);
@@ -33,9 +33,7 @@ test.describe("User login with credentials", () => {
     await loginPage.passwordInput.blur();
     // Assert
     await expect(loginPage.errorLoginMessage).toHaveText(errorMessage);
-    await expect(loginPage.errorPasswordMessage).toHaveText(
-      errorMessage
-    );
+    await expect(loginPage.errorPasswordMessage).toHaveText(errorMessage);
   });
 
   test("Unsucessful login with too short username", async ({ page }) => {
@@ -58,8 +56,6 @@ test.describe("User login with credentials", () => {
     await loginPage.passwordInput.fill(password);
     await loginPage.passwordInput.blur();
     // Assert
-    await expect(loginPage.errorPasswordMessage).toHaveText(
-      errorMessage
-    );
+    await expect(loginPage.errorPasswordMessage).toHaveText(errorMessage);
   });
 });

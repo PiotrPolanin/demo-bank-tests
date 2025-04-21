@@ -45,6 +45,12 @@ https://jaktestowac.pl/lesson/pw1s01l01/
 - Timeline – czyli historia danego pliku. Można ją podejrzeć klikając prawym klawiszem myszy na pliku (po lewej stronie w explorer) a następnie wybraniu opcji Timeline z menu kontekstowego.
 
 ## Code snippest
+- test.use({
+    launchOptions: {
+        slowMo: 200,
+    }
+}); - use over test.describe, each action will be executed 200 milliseconds slower
+- test.describe('Tests description', () => {})
+- test.describe.configure({ retries: 2 });
 
-test.describe('Tests description', () => {})
-test.describe.configure({ retries: 2 });
+await expect(page.getByLabel('selector_name')).toBeVisible();
