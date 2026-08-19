@@ -5,10 +5,12 @@
   "scripts": {
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
-    "test:login": "npm run test tests/login.spec.ts",
-    "test:pulpit": "npm run test tests/pulpit.spec.ts",
-    "test:pulpit:headed": "npm run test tests/pulpit.spec.ts -- --headed",
-    "test:payment": "npm run test tests/pulpit.spec.ts",
+    "test:login": "npx playwright test tests/login.spec.ts",
+    "test:pulpit": "npx playwright test tests/pulpit.spec.ts",
+    "test:pulpit:headed": "npx playwright test tests/pulpit.spec.ts -- --headed",
+    "test:payment:desktop": "npx playwright test tests/pulpit.spec.ts",
+    "test:payment:main": "npx playwright test tests/payment.spec.ts",
+    "test:payment:main:repeat": "npx playwright test tests/payment.spec.ts --repeat-each=10 --reporter=list",
     "test:login:annotation": "npx playwright test --grep \"@login\"",
     "test:payment:annotation": "npx playwright test --grep \"@payment\""
   },
@@ -17,7 +19,7 @@
   "license": "ISC",
   "description": "",
   "devDependencies": {
-    "@playwright/test": "^1.51.1",
+    "@playwright/test": "^1.58.2",
     "@types/node": "^22.13.10"
   }
 }

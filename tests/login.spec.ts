@@ -12,7 +12,14 @@ test.describe("User login with credentials", () => {
 
   test(
     "Sucessful login with correct credentials",
-    { tag: ["@login", "@smoke"] },
+    {
+      tag: ["@login", "@smoke"],
+      annotation: {
+        type: "happy_path",
+        description:
+          "Sucessful login using correct and valid login and password.",
+      },
+    },
     async ({ page }) => {
       // Arrange
       const login = LoginData.userLogin;
@@ -27,7 +34,14 @@ test.describe("User login with credentials", () => {
 
   test(
     "Unsucessful login with no filling credentials fields",
-    { tag: "@login" },
+    {
+      tag: "@login",
+      annotation: {
+        type: "unhappy_path",
+        description:
+          "Unsucessful login with no filling login and password fields.",
+      },
+    },
     async ({ page }) => {
       // Arrange
       const errorMessage = "pole wymagane";
@@ -44,7 +58,14 @@ test.describe("User login with credentials", () => {
 
   test(
     "Unsucessful login with too short username",
-    { tag: "@login" },
+    {
+      tag: "@login",
+      annotation: {
+        type: "unhappy_path",
+        description:
+          "Unsucessful login with too short username causing displaying error message under login field. Username should have at least 8 characters.",
+      },
+    },
     async ({ page }) => {
       // Arrange
       const errorMessage = "identyfikator ma min. 8 znaków";
@@ -58,7 +79,14 @@ test.describe("User login with credentials", () => {
 
   test(
     "Unsucessful login with too short password",
-    { tag: "@login" },
+    {
+      tag: "@login",
+      annotation: {
+        type: "unhappy_path",
+        description:
+          "Unsucessful login with too short password causing displaying error message under password field. Password should have at least 8 characters.",
+      },
+    },
     async ({ page }) => {
       // Arrange
       const login = "tester01";
