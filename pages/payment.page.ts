@@ -84,7 +84,7 @@ export class PaymentPage {
     topupAmount: string,
     formTitle: string,
   ): Promise<void> {
-    this.fillTransferForm(
+    await this.fillTransferForm(
       transferReceiver,
       transferAccount,
       topupAmount,

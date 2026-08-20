@@ -3,7 +3,7 @@ import { LoginPage } from "../pages/login.page";
 import { TransferPage } from "../pages/transfer.page";
 import { LoginData } from "../test-data/login-data";
 
-test.describe("Pulpit tests", () => {
+test.describe("Dashboard tests", () => {
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
@@ -26,7 +26,7 @@ test.describe("Pulpit tests", () => {
       const transferTitle = "Przelew środków pieniężnych";
       // Act
       const transferPage = new TransferPage(page);
-      transferPage.rapidMoneyTransfer(
+      await transferPage.rapidMoneyTransfer(
         transferReceiver,
         transferAmount,
         transferTitle
@@ -48,7 +48,7 @@ test.describe("Pulpit tests", () => {
       const message = `Doładowanie wykonane! ${amountToTransfer},00PLN na numer ${phoneNumber}`;
       // Act
       const transferPage = new TransferPage(page);
-      transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
+      await transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
       // Assert
       await expect(transferPage.showTransferMessage).toHaveText(message);
     }
@@ -66,7 +66,7 @@ test.describe("Pulpit tests", () => {
         Number(accountBallance) - Number(amountToTransfer);
       // Act
       const transferPage = new TransferPage(page);
-      transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
+      await transferPage.moneyTransferToMobilePhone(phoneNumber, amountToTransfer);
       // Assert
       await expect(transferPage.moneyValue).toHaveText(
         `${expectBalanceAfterTransfer}`
