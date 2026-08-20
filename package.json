@@ -6,6 +6,7 @@
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
     "test:login": "npx playwright test tests/login.spec.ts",
+    "test:login:repeat": "npx playwright test tests/login.spec.ts --repeat-each=10 --reporter=list",
     "test:dashboard": "npx playwright test tests/dashboard.spec.ts",
     "test:dashboard:headed": "npx playwright test tests/dashboard.spec.ts -- --headed",
     "test:payment:desktop": "npx playwright test tests/dashboard.spec.ts",

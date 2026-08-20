@@ -9,18 +9,34 @@ export class LoginPage {
   errorPasswordMessage: Locator;
 
   constructor(private page: Page) {
-    this.loginInput = this.page.getByTestId("login-input");
-    this.passwordInput = this.page.getByTestId("password-input");
-    this.loginButton = this.page.getByTestId("login-button");
-    this.userName = this.page.getByTestId("user-name");
-    this.errorLoginMessage = page.getByTestId("error-login-id");
-    this.errorPasswordMessage = page.getByTestId("error-login-password");
+    this.loginInput = this.page.locator("#login_id");
+    this.passwordInput = this.page.locator("#login_password");
+    this.loginButton = this.page.locator("#login_next");
+    this.userName = this.page.locator("#user_name");
+    this.errorLoginMessage = page.locator("#error_login_id");
+    this.errorPasswordMessage = page.locator("#error_login_password");
   }
 
-  async login(login: string, password: string): Promise<void>  {
+  async enterLoginAndPassword(login: string, password: string): Promise<void> {
+    await this.enterLogin(login);
+    await this.clickSignInButton();
+    await this.enterPassword(password);
+    await this.clickSignInButton();
+  }
+
+  async enterLogin(login: string): Promise<void> {
     await this.loginInput.fill(login);
+    await this.loginInput.blur();
+  }
+
+  async enterPassword(password: string): Promise<void> {
     await this.passwordInput.fill(password);
+    await this.passwordInput.blur();
+  }
+
+  async clickSignInButton(): Promise<void> {
     await this.loginButton.click();
   }
+
 
 }

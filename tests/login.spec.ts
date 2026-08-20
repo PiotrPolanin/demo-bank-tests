@@ -26,33 +26,54 @@ test.describe("User login with credentials", () => {
       const password = LoginData.userPassword;
       const userName = "Jan Demobankowy";
       // Act
-      await loginPage.login(login, password);
+      await loginPage.enterLoginAndPassword(login, password);
       // Assert
       await expect(loginPage.userName).toHaveText(userName);
     }
   );
 
   test(
-    "Unsucessful login with no filling credentials fields",
+    "Unsucessful login with no filling login field",
     {
       tag: "@login",
       annotation: {
         type: "unhappy_path",
         description:
-          "Unsucessful login with no filling login and password fields.",
+          "Unsucessful login with no filling login field.",
       },
     },
     async ({ page }) => {
       // Arrange
       const errorMessage = "pole wymagane";
       // Act
-      await loginPage.loginInput.click();
-      await loginPage.loginInput.blur();
-      await loginPage.passwordInput.click();
-      await loginPage.passwordInput.blur();
+      await loginPage.enterLogin("");
       // Assert
       await expect(loginPage.errorLoginMessage).toHaveText(errorMessage);
+      await expect(loginPage.loginButton).toBeDisabled();
+    }
+  );
+
+  test(
+    "Unsucessful login with no filling password field",
+    {
+      tag: "@login",
+      annotation: {
+        type: "unhappy_path",
+        description:
+          "Unsucessful login with no filling password field.",
+      },
+    },
+    async ({ }) => {
+      // Arrange
+      const login = LoginData.userLogin;
+      const errorMessage = "pole wymagane";
+      // Act
+      await loginPage.enterLogin(login);
+      await loginPage.clickSignInButton();
+      await loginPage.enterPassword("");
+      // Assert
       await expect(loginPage.errorPasswordMessage).toHaveText(errorMessage);
+      await expect(loginPage.loginButton).toBeDisabled();
     }
   );
 
@@ -70,10 +91,10 @@ test.describe("User login with credentials", () => {
       // Arrange
       const errorMessage = "identyfikator ma min. 8 znaków";
       // Act
-      await loginPage.loginInput.fill("user");
-      await loginPage.loginInput.blur();
+      await loginPage.enterLogin("user");
       // Assert
       await expect(loginPage.errorLoginMessage).toHaveText(errorMessage);
+      await expect(loginPage.loginButton).toBeDisabled();
     }
   );
 
@@ -93,11 +114,12 @@ test.describe("User login with credentials", () => {
       const password = "psw1234";
       const errorMessage = "hasło ma min. 8 znaków";
       // Act
-      await loginPage.loginInput.fill(login);
-      await loginPage.passwordInput.fill(password);
-      await loginPage.passwordInput.blur();
+      await loginPage.enterLogin(login);
+      await loginPage.clickSignInButton();
+      await loginPage.enterPassword(password);
       // Assert
       await expect(loginPage.errorPasswordMessage).toHaveText(errorMessage);
+      await expect(loginPage.loginButton).toBeDisabled();
     }
   );
 });
