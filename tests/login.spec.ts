@@ -6,8 +6,9 @@ test.describe("User login with credentials", () => {
   let loginPage: LoginPage;
 
   test.beforeEach(async ({ page }) => {
-    await page.goto("/");
+    await page.goto("/", { waitUntil: "domcontentloaded" });
     loginPage = new LoginPage(page);
+    // await page.waitForLoadState("domcontentloaded");
   });
 
   test(
@@ -17,7 +18,7 @@ test.describe("User login with credentials", () => {
       annotation: {
         type: "happy_path",
         description:
-          "Sucessful login using correct and valid login and password.",
+          "Sucessful login process after enetering correct and valid login and password.",
       },
     },
     async ({ page }) => {
@@ -26,7 +27,7 @@ test.describe("User login with credentials", () => {
       const password = LoginData.userPassword;
       const userName = "Jan Demobankowy";
       // Act
-      await loginPage.enterLoginAndPassword(login, password);
+      await loginPage.signIn(login, password);
       // Assert
       await expect(loginPage.userName).toHaveText(userName);
     }
@@ -39,7 +40,7 @@ test.describe("User login with credentials", () => {
       annotation: {
         type: "unhappy_path",
         description:
-          "Unsucessful login with no filling login field.",
+          "Unsucessful login with no filling login field causing displaying error message under login field: field required.",
       },
     },
     async ({ page }) => {
@@ -60,7 +61,7 @@ test.describe("User login with credentials", () => {
       annotation: {
         type: "unhappy_path",
         description:
-          "Unsucessful login with no filling password field.",
+          "Unsucessful login with no filling password field causing displaying error message under password field: field required.",
       },
     },
     async ({ }) => {

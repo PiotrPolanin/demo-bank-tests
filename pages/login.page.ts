@@ -1,4 +1,4 @@
-import { Locator, Page } from "@playwright/test";
+import { Locator, Page, expect } from "@playwright/test";
 
 export class LoginPage {
   loginInput: Locator;
@@ -17,7 +17,7 @@ export class LoginPage {
     this.errorPasswordMessage = page.locator("#error_login_password");
   }
 
-  async enterLoginAndPassword(login: string, password: string): Promise<void> {
+  async signIn(login: string, password: string): Promise<void> {
     await this.enterLogin(login);
     await this.clickSignInButton();
     await this.enterPassword(password);
@@ -25,18 +25,20 @@ export class LoginPage {
   }
 
   async enterLogin(login: string): Promise<void> {
+    await expect(this.loginInput).toBeVisible();
     await this.loginInput.fill(login);
     await this.loginInput.blur();
   }
 
   async enterPassword(password: string): Promise<void> {
+    await expect(this.passwordInput).toBeVisible();
     await this.passwordInput.fill(password);
     await this.passwordInput.blur();
   }
 
   async clickSignInButton(): Promise<void> {
+    await expect(this.loginButton).toBeVisible();
     await this.loginButton.click();
   }
-
 
 }

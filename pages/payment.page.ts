@@ -29,22 +29,20 @@ export class PaymentPage {
   sideMenu: SideMenuComponent;
 
   constructor(private page: Page) {
-    this.transferReceiver = this.page.locator("#widget_4_transfer_receiver");
-    this.transferAccount = this.page.locator("#widget_2_transfer_account");
-    this.topupAmount = this.page.locator("#widget_1_topup_amount");
-    this.addressToggle = this.page.locator('.form-row').filter({ has: this.page.locator('span[data-target="form_address"]') }).locator('.form-static');
+    this.transferReceiver = this.page.locator("#form_receiver");
+    this.transferAccount = this.page.locator("#form_account_to");
+    this.topupAmount = this.page.locator("#form_amount");
+    this.addressToggle = this.page.locator('[data-target="form_address"]').first();
     this.receiverAddress1 = this.page.locator("#form_receiver_address1");
-    this.receiverAddress1 = this.page.locator("#form_receiver_address2");
-    this.receiverAddress1 = this.page.locator("#form_receiver_address3");
-    this.receiverAddress2 = this.page.locator("#");
-    this.receiverAddress3 = this.page.locator("#");
+    this.receiverAddress2 = this.page.locator("#form_receiver_address2");
+    this.receiverAddress3 = this.page.locator("#form_receiver_address3");
     this.formTitle = this.page.locator("#form_title");
     this.formDate = this.page.locator("#form_date");
     this.normalType = this.page.locator("#form_type1");
     this.expressType = this.page.locator("#form_type2");
     this.transferFee = this.page.locator("#form_fee");
     this.message = this.page.locator("#show_messages");
-    this.executeButton = this.page.locator("#execute_btn");
+    this.executeButton = this.page.getByText(/dalej/i);
     this.cancelButton = this.page.getByText(/anuluj/i)
     this.emailConfirmation = this.page.locator("#form_is_email");
     this.email = this.page.locator("#form_email");
@@ -62,7 +60,7 @@ export class PaymentPage {
     await this.sideMenu.paymentLink.click();
   }
 
-  async normalTransfer(
+  async fillNormalTransferForm(
     transferReceiver: string,
     transferAccount: string,
     topupAmount: string,
@@ -75,10 +73,9 @@ export class PaymentPage {
       formTitle,
     );
     await this.selectNormalTransferType();
-    await this.executeTransfer();
   }
 
-  async expressTransfer(
+  async fillExpressTransferForm(
     transferReceiver: string,
     transferAccount: string,
     topupAmount: string,
@@ -91,7 +88,6 @@ export class PaymentPage {
       formTitle,
     );
     await this.selectExpressTransferType();
-    await this.executeTransfer();
   }
 
   async fillTransferForm(
@@ -114,7 +110,7 @@ export class PaymentPage {
     await this.expressType.check();
   }
 
-  private async executeTransfer(): Promise<void> {
+  public async executeTransfer(): Promise<void> {
     await this.executeButton.click();
   }
 
@@ -147,10 +143,7 @@ export class PaymentPage {
   }
 
   public async fillAddressData(line1: string, line2: string, line3: string) {
-    await this.addressToggle.scrollIntoViewIfNeeded();
-    console.log('toggle count:', await this.addressToggle.count());
-    console.log('toggle visible:', await this.addressToggle.isVisible());
-    // console.log('section visible before:', await this.addressSection.isVisible());
+    // await this.addressToggle.scrollIntoViewIfNeeded();
     await this.addressToggle.click();
     await this.receiverAddress1.fill(line1);
     await this.receiverAddress2.fill(line2);
