@@ -39,6 +39,7 @@ The suite contains both **positive and negative test scenarios**.
 demo-bank-tests/
 ├── components/     # Reusable UI components
 ├── pages/          # Page Object classes
+├── configuration/  # Environment variables
 ├── test-data/      # Test data
 ├── tests/          # Playwright test specifications
 ├── utils/          # Helper functions
@@ -98,9 +99,24 @@ The configuration also retains **traces and videos for failed tests** to support
 
 ## Continuous Integration
 
-The test suite can be executed automatically using **GitHub Actions**.
+Automated tests are executed using **GitHub Actions**.
 
-CI validates the automated tests on repository changes and provides test execution results without requiring a local environment.
+The CI pipeline runs the complete Playwright test suite against:
+
+- Google Chrome
+- Firefox
+- WebKit (Safari engine)
+
+The workflow is triggered automatically on:
+
+- pushes to the `main` branch;
+- pull requests targeting `main`.
+
+It can also be executed manually from the GitHub Actions tab.
+
+Each browser is executed as a separate matrix job. Playwright HTML
+reports and failure artifacts are stored as GitHub Actions artifacts
+for debugging.
 
 ## Project Goals
 

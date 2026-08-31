@@ -5,6 +5,9 @@
   "scripts": {
     "test": "npx playwright test",
     "test:headed": "npx playwright test --headed",
+    "test:chrome": "npx playwright test --project=chrome",
+    "test:firefox": "npx playwright test --project=firefox",
+    "test:webkit": "npx playwright test --project=webkit",
     "test:login": "npx playwright test tests/login.spec.ts",
     "test:login:repeat": "npx playwright test tests/login.spec.ts --repeat-each=50 --workers=1 --reporter=list",
     "test:dashboard": "npx playwright test tests/dashboard.spec.ts",
